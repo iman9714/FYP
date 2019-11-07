@@ -1,6 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-def home(request):
-    #return render(request, template_name='home.html')
-    return HttpResponse('Hai buat gapo tu!')
+from django.views.generic import TemplateView
+
+
+class HomePageView(TemplateView):
+    template_name = 'home.html'
+
+class LoginPageView(TemplateView):
+    template_name = 'login.html'
