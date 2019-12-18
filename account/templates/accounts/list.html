@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block h1 %} Volunter List {% endblock %}
+
+{% block content %}
+    <ol>
+    {% for volunteer in volunteer_list %}
+    <li>{{ volunteer.volunteer_name }}</li>
+    {% endfor%}
+    </ol>
+
+{% endblock %}

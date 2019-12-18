@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<style type="text/css">
+  .form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  }
+  .form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="email"] {
+    margin-bottom: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="text"] {
+    margin-bottom: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="password"] {
+    margin-bottom: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .h3{
+    text-align: center;
+  }
+</style>
+
+
+<form class="form-signin" method="POST">
+  {% csrf_token %}
+  <h1 class="h3 mb-3 font-weight-normal">Create Event</h1>
+
+  <input type="text" name="title" id="inputtitle" class="form-control" placeholder="title" required>
+
+  <input type="date" name="start_date" id="Inputstart_date" class="form-control" placeholder="start date" >
+
+
+  <input type="date" name="end_date" id="Inputend_date" class="form-control" placeholder="end date" >
+
+  <input type="time" name="start_time" id="Inputstart_time" class="form-control" placeholder="start time" >
+
+  <input type="time" name="end_time" id="Inputend_time" class="form-control" placeholder="end time" >
+
+  <textarea name="location" rows="8" cols="80" name="location" id="inputtitle" class="form-control" placeholder="location" required></textarea>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+
+</form>
+
+
+{% endblock content %}

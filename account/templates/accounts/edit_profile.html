@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block menu-right %}
+{% endblock %}
+
+{% block h1 %} Volunteer Update {% endblock %}
+
+{% block content %}
+  <form method="POST">
+      {% csrf_token %}
+      {{form.as_p}}
+  <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+{% endblock %}
