@@ -17,3 +17,4 @@ class EditProfile(UserChangeForm):
         'ic',
         'personal_contact'
         ]
+        

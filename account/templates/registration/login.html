@@ -4,11 +4,11 @@
 {% block content %}
 <style type="text/css">
   .form-signin {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-    }
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  }
   .form-signin .form-control {
     position: relative;
     box-sizing: border-box;
@@ -20,49 +20,70 @@
     z-index: 2;
   }
   .form-signin input[type="email"] {
-    margin-bottom: -1px;
+    margin-bottom: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="text"] {
+    margin-bottom: 10px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
   }
   .form-signin input[type="password"] {
-    margin-bottom: 10px;
+    margin-bottom: -1px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
-  .h3  {
+  .h3{
     text-align: center;
   }
 </style>
 
 
-<form class="form-signin" method="post">{% csrf_token %}
-
+<form method="post" class="form-signin" novalidate>
+  {% csrf_token %}
   <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+  {% load widget_tweaks %}
 
-  <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-
-  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-
-  {% for field in volunteer_login %}
-      <p>
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
+      <!--error handling start-->
+        {% for hidden_field in form.hidden_fields %}
+          {{ hidden_field }}
         {% endfor %}
-      </p>
-  {% endfor %}
-  {% if volunteer_login.non_field_errors %}
-    <div style="color: red">
-      <p>{{login_form.non_field_errors}}</p>
-    </div>
 
-  {% endif %}
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+              {{ error }}
+            {% endfor %}
+          </div>
+        {% endif %}
 
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+        {% for field in form.visible_fields %}
+          <div class="form-group">
+            {{ field.label_tag }}
 
+            {% if form.is_bound %}
+              {% if field.errors %}
+                {% render_field field class="form-control is-invalid" %}
+                {% for error in field.errors %}
+                  <div class="invalid-feedback">
+                    {{ error }}
+                  </div>
+                {% endfor %}
+              {% else %}
+                {% render_field field class="form-control is-valid" %}
+              {% endif %}
+            {% else %}
+              {% render_field field class="form-control" %}
+            {% endif %}
+
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <!--error handling end-->
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 </form>
-
-<div class="d-flex flex-column">
-  <a class="m-auto" href="">Reset password</a>
-</div>
-
 {% endblock content %}

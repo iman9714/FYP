@@ -22,9 +22,7 @@ def account_register(request):
             form.save()
             messages.success(request, 'Your are successfully registred!')
             return redirect('login')
-        else:
-            messages.success(request, 'Your cant be registred!')
-            context = {'form':form}
+
 
     else:
         form = VolunteerRegisterForm()

@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #EXTERNAL RESOURCE
+    'widget_tweaks',
+
 
 ]
 
