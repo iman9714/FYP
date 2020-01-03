@@ -3,12 +3,39 @@
 {% block menu-right %}
 {% endblock %}
 
-{% block h1 %} Volunteer Update {% endblock %}
-
 {% block content %}
-  <form method="POST">
-      {% csrf_token %}
-      {{form.as_p}}
-  <button type="submit" class="btn btn-primary">Update</button>
-  </form>
-{% endblock %}
+<style type="text/css">
+  .card {
+    margin-left: 300px;
+    margin-right: 300px;
+  }
+</style>
+
+<div class="card border-bottom shadow-sm">
+  <h5 class="card-header h5">My Profile</h5>
+  <div class="card-body">
+
+    <section class="profile-img">
+
+    </section>
+
+    <section>
+    </section>
+
+    <section>
+    </section>
+
+    <h5 class="card-title">Special title treatment</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+    <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+
+  </div>
+</div>
+
+{% endblock content %}

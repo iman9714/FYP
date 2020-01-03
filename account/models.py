@@ -8,7 +8,7 @@ class Profile(models.Model):
     ic                      = models.CharField(max_length=12, blank=True)
     personal_contact        = models.CharField(max_length=15,blank=True)
     office_contact          = models.CharField(max_length=15,blank=True)
-    picture                 = models.ImageField(upload_to = 'account/profilePicture/', default = 'account/profilePicture/None/no-img.jpg',blank=True)
+    picture                 = models.ImageField(upload_to = 'account/profilePicture/', blank=True)
     home_address_line1      = models.CharField(max_length=100,blank=True)
     home_address_line2      = models.CharField(max_length=100,blank=True)
     home_zip_code           = models.CharField(max_length=10,blank=True)

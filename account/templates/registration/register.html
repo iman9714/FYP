@@ -47,13 +47,7 @@
   <h1 class="h3 mb-3 font-weight-normal">Volunteer Registration</h1>
     {% load widget_tweaks %}
 
-    {% if messages %}
-      <div class="alert alert-success" role="alert">
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
-      </div>
-    {% endif %}
+
 
   <!--error handling start-->
   {% for hidden_field in form.hidden_fields %}

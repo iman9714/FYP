@@ -3,18 +3,52 @@
 
 
 {% block content %}
+<style type="text/css">
+  .card{
+    margin-left: 300px;
+    margin-right: 300px;
+  }
 
+  table{
+    margin-left:100px;
+  }
 
-{% if messages %}
-  <div class="alert alert-success" role="alert">
-    {% for message in messages %}
-      <p>{{ message }}</p>
-    {% endfor %}
+</style>
+
+<div class="card">
+  <h5 class="card-header h5">My Profile</h5>
+  <div class="card-body">
+
+    <table>
+      <tr>
+        <td>
+          <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+              <h5 style="text-align: center;">Profile Picture</h5>
+              <img src="{{ user.profile.picture.url }}" class="img-responsive" style="width: 70%; margin-left: 40px;" />
+          </div>
+        </td>
+
+        <td>
+          <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+              <h5 style="text-align: center;">Profile Picture</h5>
+              <img src="{{ user.profile.picture.url }}" class="img-responsive" style="width: 70%; margin-left: 40px;" />
+          </div>
+        </td>
+
+        <td>
+          <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+              <h5 style="text-align: center;">Profile Picture</h5>
+              <img src="{{ user.profile.picture.url }}" class="img-responsive" style="width: 70%; margin-left: 40px;" />
+          </div>
+        </td>
+      </tr>
+    </table>
   </div>
-{% endif %}
-  <h1 class="h3 mb-3 font-weight-normal">profile</h1>
-  <a class="p-2 text-dark" href="{% url 'edit_profile' %} ">My Account</a>
 
+  <div class="card-footer  border shadow-sm">
+      <a href="{% url 'edit_profile' %}">Edit</a>
+  </div>
+</div>
 
 
 
