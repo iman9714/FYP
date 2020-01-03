@@ -45,6 +45,14 @@
   <h1 class="h3 mb-3 font-weight-normal">Login</h1>
   {% load widget_tweaks %}
 
+  {% if messages %}
+    <div class="alert alert-success" role="alert">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
       <!--error handling start-->
         {% for hidden_field in form.hidden_fields %}
           {{ hidden_field }}
@@ -84,6 +92,6 @@
         {% endfor %}
         <!--error handling end-->
 
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
 </form>
 {% endblock content %}

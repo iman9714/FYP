@@ -1,10 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .forms import VolunteerRegisterForm,EditProfile
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Profile
+
+
+def user_logout(request):
+    logout(request)
+    messages.success(request, 'Your are successfully Logout!')
+    return redirect('login')
 
 @login_required
 def account_view_profile(request):
@@ -21,8 +27,7 @@ def account_register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your are successfully registred!')
-            return redirect('login')
-
+            return redirect('register')
 
     else:
         form = VolunteerRegisterForm()

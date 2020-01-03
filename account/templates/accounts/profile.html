@@ -5,7 +5,13 @@
 {% block content %}
 
 
-
+{% if messages %}
+  <div class="alert alert-success" role="alert">
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
   <h1 class="h3 mb-3 font-weight-normal">profile</h1>
   <a class="p-2 text-dark" href="{% url 'edit_profile' %} ">My Account</a>
 
