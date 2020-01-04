@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate, logout
 from .forms import VolunteerRegisterForm,EditProfile
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile,Skill,Cause,NGO,Address,Education,Contact,Experiance
 
 
 def user_logout(request):
@@ -21,7 +21,17 @@ def account_view_profile(request,  pk=None):
         user = User.objects.get(pk=pk)
     else:
         user = request.user
-    context = {'user': user}
+
+    profile = Profile.objects.filter(user = user.id)
+    skill = Skill.objects.filter(profile = user.profile.id)
+    cause = Cause.objects.filter(profile = user.profile.id)
+    ngo = NGO.objects.filter(profile = user.profile.id)
+    address = Address.objects.filter(profile = user.profile.id)
+    education = Education.objects.filter(profile = user.profile.id)
+    contact = Contact.objects.filter(profile = user.profile.id)
+    experiance = Experiance.objects.filter(profile = user.profile.id)
+
+    context = {'user': user, 'profile':profile, 'skill':skill, 'cause':cause, 'ngo':ngo, 'address':address, 'education':education, 'contact':contact, 'experiance':experiance}
     return render(request, 'accounts/profile.html', context)
 
 
@@ -57,15 +67,18 @@ def account_edit_profile(request):
         form = EditProfile(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.initial = {
-                "personal_contact": request.POST['personal_contact'],
-                "image": request.POST['picture'],
+                "username": request.POST['username'],
+                "email": request.POST['email'],
+                #"image": request.POST['picture'],
 			}
             form.save()
             context['success_message'] = "Updated"
     else:
         form = EditProfile(
         initial={
-            #"personal_contact": request.user.profile.contact.personal_contact,
+            "username": request.user.username,
+            "email": request.user.email,
+            #"image": request.user.profile.picture,
             })
 
     context['form'] = form

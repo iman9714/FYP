@@ -5,6 +5,7 @@ from .models import Profile,Skill,Cause,NGO,Address,Contact,Education,Experiance
 
 admin.site.register(Profile)
 admin.site.register(Skill)
+admin.site.register(Contact)
 admin.site.register(Cause)
 admin.site.register(NGO)
 admin.site.register(Address)

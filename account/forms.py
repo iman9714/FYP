@@ -29,6 +29,7 @@ class VolunteerRegisterForm(UserCreationForm):
 class EditProfile(UserChangeForm):
     class Meta:
         model = Profile
-        fields = [
-        'picture'
-        ]
+        fields = ['picture']
+
+        model = User
+        fields = ['username','email']
