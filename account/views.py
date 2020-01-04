@@ -57,7 +57,6 @@ def account_edit_profile(request):
         form = EditProfile(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.initial = {
-                "ic": request.POST['ic'],
                 "personal_contact": request.POST['personal_contact'],
                 "image": request.POST['picture'],
 			}
@@ -66,8 +65,7 @@ def account_edit_profile(request):
     else:
         form = EditProfile(
         initial={
-            "ic": request.user.profile.ic,
-            "personal_contact": request.user.profile.personal_contact,
+            #"personal_contact": request.user.profile.contact.personal_contact,
             })
 
     context['form'] = form
