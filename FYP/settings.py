@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     #EXTERNAL RESOURCE
     'widget_tweaks',
+    'fontawesome',
 
 
 ]

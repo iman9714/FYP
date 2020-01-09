@@ -26,6 +26,10 @@ class Address(models.Model):
     zip_code = models.CharField(max_length=10,blank=True)
     state = models.CharField(max_length=20,blank=True)
     country = models.CharField(max_length=50,blank=True)
+    office_address = models.CharField(max_length=128,blank=True)
+    office_zip_code = models.CharField(max_length=10,blank=True)
+    office_state = models.CharField(max_length=20,blank=True)
+    office_country = models.CharField(max_length=50,blank=True)
 
 class Education(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='education')

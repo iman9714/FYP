@@ -32,7 +32,7 @@ def account_view_profile(request,  pk=None):
     experiance = Experiance.objects.filter(profile = user.profile.id)
 
     context = {'user': user, 'profile':profile, 'skill':skill, 'cause':cause, 'ngo':ngo, 'address':address, 'education':education, 'contact':contact, 'experiance':experiance}
-    return render(request, 'accounts/profile.html', context)
+    return render(request, 'accounts/account_view_profile.html', context)
 
 
 def account_register(request):

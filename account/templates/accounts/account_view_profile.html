@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load fontawesome %}
+{% load static %}
+
+
+{% block content %}
+{% fontawesome_stylesheet %}
+<style type="text/css">
+  .card{
+    margin-left: 25%;
+    margin-right: 25%;
+
+  }
+
+</style>
+
+<div class="card">
+  <h4 class="card-header" style="text-align:center;">My Profile</h4>
+  <div class="card-body" >
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+          <a href="" data-toggle="modal" data-target="#exampleModalCenter">
+            <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+          </a>
+            <h5 style="text-align: left;">Basic Information</h5>
+            <hr>
+            <img src="{{ user.profile.picture.url }}" class="img-responsive" style="width: 20%; margin-left: 40%;" />
+            <h3 style="text-align: center;  text-transform:uppercase;" >{{user.first_name}} {{user.last_name}}</h3>
+            <hr>
+
+            <div class="row xs-mt-20" style="text-align:center;">
+              <div class="col-sm-4">
+                <ul class="fa-ul">
+                  <li> {% fontawesome_icon 'user' li=True %}{{user.username}}</li>
+                </ul>
+              </div>
+              <div class="col-sm-4">
+                <ul class="fa-ul">
+                  <li> {% fontawesome_icon 'envelope' li=True %}{{user.email}}</li>
+                </ul>
+              </div>
+              <div class="col-sm-4">
+                {% for x in profile %}
+                  <p>{{ x.occupation }}</p>
+                {% endfor %}
+              </div>
+            </div>
+
+        </div>
+       </div>
+      </div>
+
+      <div class="row">
+      <div class="col-sm-12">
+        <div class="border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+          <a href="" data-toggle="modal" data-target="#exampleModalCenter">
+            <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+          </a>
+            <h5 style="text-align: left;">Address</h5>
+            <hr>
+            {% for add in address %}
+              </h6>{{add.address}}</h6><br>
+              </h6>{{add.zip_code}}</h6><br>
+              </h6>{{add.state}}</h6><br>
+              </h6>{{add.country}}</h6><br>
+            {% endfor %}
+        </div>
+        </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+              <a href="" data-toggle="modal" data-target="#exampleModalCenter">
+                <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+              </a>
+                <h5 style="text-align: left;">Skill</h5>
+                <hr>
+                {% for x in contact %}
+                  </h6>{{x.office_contact}}</h6><br>
+                  </h6>{{x.personal_contact}}</h6>
+                {% endfor %}
+            </div>
+          </div>
+          </div>
+
+          <div class="row">
+          <div class="col-sm-12">
+            <div class="card border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+              <a href="" data-toggle="modal" data-target="#exampleModalCenter">
+                <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+              </a>
+                <h5 style="text-align: left;">Cause</h5>
+                <hr>
+                {% for x in education %}
+                  </h6>{{x.level}}</h6><br>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+        <div class="col-sm-12">
+          <div class="card border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+            <a href="" data-toggle="modal" data-target="#exampleModalCenter">
+              <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+            </a>
+              <h5 style="text-align: left;">NGO</h5>
+              <hr>
+              {% for x in education %}
+                </h6>{{x.level}}</h6><br>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+      <div class="col-sm-12">
+        <div class="card border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+          <a href="" data-toggle="modal" data-target="#exampleModalCenter">
+            <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+          </a>
+            <h5 style="text-align: left;">Education</h5>
+            <hr>
+            {% for x in education %}
+              </h6>{{x.level}}</h6><br>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+    <div class="col-sm-12">
+      <div class="card border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+        <a href="" data-toggle="modal" data-target="#exampleModalCenter">
+          <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+        </a>
+          <h5 style="text-align: left;">Experiance</h5>
+          <hr>
+          {% for x in education %}
+            </h6>{{x.level}}</h6><br>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+
+{% include "accounts/account_edit_profile.html" %}
+
+{% endblock content %}
+
+
+    <td rowspan="2">
+      <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+          <h5 style="text-align: center;">Profile Picture</h5>
+          <hr>
+          <img src="{{ user.profile.picture.url }}" class="img-responsive" style="width: 70%; margin-left: 40px;" />
+          <hr>
+          <p>{{user.first_name}} {{user.last_name}}</p>
+          <p>{{user.username}}</p>
+          <p>{{user.email}}</p>
+          {% for x in profile %}
+            <p>{{ x.occupation }}</p>
+          {% endfor %}
+      </div>
+    </td>
+
+
+      <div class="card border shadow-sm" style="width: 40rem; height:auto; margin: 10px; padding: 20px;">
+          <h5 style="text-align: center;">Address</h5>
+          <hr>
+          {% for add in address %}
+            </h6>{{add.address}}</h6><br>
+            </h6>{{add.zip_code}}</h6><br>
+            </h6>{{add.state}}</h6><br>
+            </h6>{{add.country}}</h6><br>
+          {% endfor %}
+      </div>
+
+
+
+
+
+      <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+          <h5 style="text-align: center;">Contact</h5>
+          <hr>
+          {% for x in contact %}
+            </h6>{{x.office_contact}}</h6><br>
+            </h6>{{x.personal_contact}}</h6>
+          {% endfor %}
+      </div>
+
+
+
+      <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+          <h5 style="text-align: center;">Education</h5>
+          <hr>
+          {% for x in education %}
+            </h6>{{x.level}}</h6><br>
+            </h6>{{x.description}}</h6>
+          {% endfor %}
+      </div>
+
+
+
+      <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+          <h5 style="text-align: center;">Skill</h5>
+          <hr>
+          {% for skills in skill %}
+            <span class="badge badge-info" style="margin-bottom:5px; margin-left:50px; width:60%;">{{skills.skill}}</span>
+          {% endfor %}
+      </div>
+
+
+
+      <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+          <h5 style="text-align: center;">Cause</h5>
+          <hr>
+          {% for causes in cause %}
+            <span class="badge badge-info" style="margin-bottom:5px; margin-left:50px; width:60%;">{{causes.cause}}</span>
+          {% endfor %}
+      </div>
+
+
+      <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+          <h5 style="text-align: center;">NGO</h5>
+          <hr>
+          {% for ngos in ngo %}
+            <span class="badge badge-info" style="margin-bottom:5px; margin-left:50px; width:60%;">{{ngos.name}}</span>
+          {% endfor %}
+      </div>
+
+
+      <div class="card border shadow-sm" style="width: 20rem;  margin: 10px; padding: 20px;">
+          <h5 style="text-align: center;">Experience</h5>
+          <hr>
+          {% for x in experiance %}
+            </h6>{{x.detail}}</h6>
+          {% endfor %}
+      </div>
