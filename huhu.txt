@@ -1,0 +1,18 @@
+<label for="fname">First Name</label>
+  <input type="text" class="form-control" name="first_name" placeholder="First name" value="{{user.first_name}}"><br>
+
+<label for="lname">Last Name</label>
+  <input type="text" class="form-control" name="last_name" placeholder="Last name" value="{{user.last_name}}"><br>
+
+<label for="email">Email</label>
+  <input type="email" class="form-control" name="email" placeholder="Email" value="{{user.email}}"><br>
+
+{% for x in contact %}
+<label for="phone">Personal Number</label>
+  <input type="text" class="form-control" name="personal_contact" placeholder="Phone Number" value="{{x.personal_contact}}"><br>
+
+<label for="office">Office Number</label>
+<input type="text" class="form-control" name="office_contact" placeholder="Office Number" value="{{x.office_contact}}"><br>
+{% endfor %}
+<label for="job">Job</label>
+<input type="text" class="form-control" name="occupation" placeholder="Job" value="{{user.profile.occupation}}"><br>
