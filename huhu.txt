@@ -16,3 +16,46 @@
 {% endfor %}
 <label for="job">Job</label>
 <input type="text" class="form-control" name="occupation" placeholder="Job" value="{{user.profile.occupation}}"><br>
+
+@login_required
+def account_view_profile(request,  pk=None):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+
+    profile = Profile.objects.filter(user = user.id)
+    skill = Skill.objects.filter(profile = user.profile.id)
+    cause = Cause.objects.filter(profile = user.profile.id)
+    ngo = NGO.objects.filter(profile = user.profile.id)
+    address = Address.objects.filter(profile = user.profile.id)
+    education = Education.objects.filter(profile = user.profile.id)
+    contact = Contact.objects.filter(profile = user.profile.id)
+    experiance = Experiance.objects.filter(profile = user.profile.id)
+
+
+    context = {'user': user, 'profile':profile, 'skill':skill, 'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
+    return render(request, 'accounts/account_view_profile.html', context)
+
+
+    class Event_volunteer(models.Model):
+        event               = models.ForeignKey(Event, related_name='event_volunteer')
+        user                = models.ForeignKey(User, related_name='event_volunteer')
+
+    class Logistic_team(models.Model):
+        logistic            = models.ForeignKey(Logistic, related_name='logistic_team')
+        user                = models.ForeignKey(User, related_name='logistic_team')
+
+            cause = Cause.objects.all().filter(profile = x.profile.id)
+            ngo = NGO.objects.all().filter(profile = x.profile.id)
+            address = Address.objects.all().filter(profile = x.profile.id)
+            education = Education.objects.all().filter(profile = x.profile.id)
+            contact = Contact.objects.all().filter(profile = x.profile.id)
+            experiance = Experiance.objects.all().filter(profile = x.profile.id)
+
+            <ul class="fa-ul">
+        			 <li> <span style="font-size: 70px;">{% fontawesome_icon 'plus-circle' li=True large=True %}</span></li>
+        		</ul>

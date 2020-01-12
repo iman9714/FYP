@@ -102,21 +102,20 @@
       <div class="row">
       <div class="col-sm-12">
         <div class="border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;" id="demo" class="">
+          <a href="" data-toggle="modal" data-target="#addressinfo">
+            <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+          </a>
             <h5 style="text-align: left;">Address</h5>
+
             <hr>
             {% for add in address %}
-            <a href="" data-toggle="modal" data-target="#exampleModalCenter">
-              <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
-            </a>
               </h6>{{add.address}}</h6><br>
               </h6>{{add.zip_code}}</h6><br>
               </h6>{{add.state}}</h6><br>
               </h6>{{add.country}}</h6><br>
               <div class="collapse" id="address">
                 <hr>
-                <a href="" data-toggle="modal" data-target="#exampleModalCenter">
-                  <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
-                </a>
+
                 </h6>{{add.office_address}}</h6><br>
                 </h6>{{add.office_zip_code}}</h6><br>
                 </h6>{{add.office_state}}</h6><br>
@@ -134,7 +133,7 @@
         <div class="row">
           <div class="col-sm-12">
             <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
-              <a href="" data-toggle="modal" data-target="#exampleModalCenter">
+              <a href="" data-toggle="modal" data-target="#skill">
                 <img src="{% static 'add.svg' %}" style="float:right;" width="20" height="20">
               </a>
                 <h5 style="text-align: left;">Skill</h5>

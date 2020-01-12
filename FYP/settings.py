@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     #EXTERNAL RESOURCE
     'widget_tweaks',
     'fontawesome',
+    'crispy_forms',
 
 
 ]
@@ -94,7 +95,10 @@ DATABASES = {
         'NAME': 'ems',
         'USER': 'root',
         'PASSWORD': '',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'HOST': 'localhost',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        }   # Or an IP Address that your DB is hosted on
         #'PORT': '3306',
     }
 }
@@ -143,3 +147,5 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join('account/media/')
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

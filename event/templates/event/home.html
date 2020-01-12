@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load fontawesome %}
+
 {% block content %}
+{% fontawesome_stylesheet %}
 
 <style type="text/css">
 	.card{
@@ -12,12 +15,18 @@
   .card-body a {
     font-size: 20px;
   }
+
+
 </style>
 
 <div class="container">
 
+		<ul class="fa-ul">
+			 <li> <span style="font-size: 70px;">{% fontawesome_icon 'plus-circle' li=True large=True %}</span></li>
+		</ul>
+
+
     {% for event in events %}
-		<!-- Blog Post -->
 		  <div class="card m-auto border-bottom shadow sm">
 			     <img class="card-img-top" src="" >
 			     <div class="card-body mt-2 mb-2">

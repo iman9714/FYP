@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from django.forms import ModelForm
 from django.contrib.auth.models import User
-from account.models import Profile, Contact
+from account.models import Profile, Contact, Address, Skill
 
 class VolunteerRegisterForm(UserCreationForm):
     class Meta:
@@ -25,6 +25,10 @@ class VolunteerRegisterForm(UserCreationForm):
             return username
         raise forms.ValidationError('Username "%s" is already in use.' % username)
 
+class Add_skill(UserCreationForm):
+    class Meta:
+        model = Skill
+        fields = ['skill']
 
 class Edit_basic_profile(UserChangeForm):
     class Meta:
@@ -48,3 +52,13 @@ class Edit_basic_contact(UserChangeForm):
     class Meta:
         model = Contact
         fields = ['office_contact','personal_contact']
+
+class Edit_address(UserChangeForm):
+    class Meta:
+        model = Address
+        fields = ['address','zip_code','state', 'country', 'office_address', 'office_zip_code', 'office_state', 'office_country' ]
+
+class Edit_skill(UserChangeForm):
+    class Meta:
+        model = Skill
+        fields = ['skill']

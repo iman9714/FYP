@@ -4,8 +4,9 @@ from nltk.tokenize import PunktSentenceTokenizer
 from nltk.stem import WordNetLemmatizer
 from collections import Counter
 import math
+from django.contrib.auth.models import User
 from event.models import Event, Activity
-from account.models import User,Profile
+from account.models import Profile,Skill,Cause,NGO,Address,Education,Contact,Experiance
 
 class filtering(object):
     def __init__(self,id,similarity):
@@ -17,25 +18,46 @@ def eventProfile(id):
 
     rec = []
     events = Event.objects.get(pk=id)
-    activity = Activity.objects.filter(event=id)
+    activity = Activity.objects.filter(event=events.id)
 
     eventDetail = events.title +" "+ events.location
     for x in activity:
         eventDetail = eventDetail +" "+ x.title +" "+ x.category +" "+ x.description
 
     eventVec = text_to_vector(eventDetail)
-    #print(eventVec)
+
+
 
 
     user = User.objects.all()
-    profile = " "
-    for x in user:
-        user_profile = Profile.objects.get(user=x.id)
-        profile = user_profile.home_state +" "+user_profile.skill+" "+user_profile.cause
-        profile = text_to_vector(profile)
-        #print(profile)
-        similarity = get_cosine(eventVec,profile)
-        rec.append(filtering(x.id,similarity))
+    for users in user:
+        string = ""
+        profile = Profile.objects.all().filter(user = users.id)
+        skill = Skill.objects.all().filter(profile = users.profile.id)
+        cause = Cause.objects.all().filter(profile = users.profile.id)
+        ngo = NGO.objects.all().filter(profile = users.profile.id)
+        address = Address.objects.all().filter(profile = users.profile.id)
+        education = Education.objects.all().filter(profile = users.profile.id)
+        experiance = Experiance.objects.all().filter(profile = users.profile.id)
+        for x in profile:
+            string = string +' '+ x.occupation
+        for x in skill:
+            string = string +' '+  x.skill
+        for x in cause:
+            string = string +' '+  x.cause
+        for x in ngo:
+            string = string +' '+  x.name
+        for x in address:
+            string = string +' '+  x.address+' '+  x.zip_code+' '+  x.state+' '+  x.office_address+' '+  x.office_zip_code+' '+  x.office_state
+        for x in education:
+            string = string +' '+  x.level+' '+  x.description
+        for x in experiance:
+            string = string +' '+  x.detail
+
+        string = text_to_vector(string)
+        similarity = get_cosine(eventVec,string)
+        if similarity > 0.0:
+            rec.append(filtering(users.id,similarity))
 
     return rec
 

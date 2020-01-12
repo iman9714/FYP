@@ -1,25 +1,96 @@
-<!--basic information -->
+{% load crispy_forms_tags %}
+
+<!--basic information ---------------------------------------------------------------------------------------------------------------------->
 <div class="modal fade" id="basicinformation" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Edit Detail</h5>
+        <h5 class="modal-title" id="basicinformationTitle">Edit Detail</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post" action="{% url 'edit_profile' %} ">
+      <form method="post" action="{% url 'profile' %} ">
         <div class="modal-body">
 
           {% csrf_token %}
             <div class="form-group">
-              {{form.as_p}}
+              {{ form_user.first_name|as_crispy_field }}
+              {{ form_user.last_name|as_crispy_field }}
+              {{ form_user.email|as_crispy_field}}
+              {{ form_profile.occupation|as_crispy_field }}
+              {{ form_contact.personal_contact|as_crispy_field }}
+              {{ form_contact.office_contact|as_crispy_field }}
             </div>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <input name="basic" type="submit" value="Submit" />
+          <button name="basic" type="submit" value="Submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--Address---------------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="addressinfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addressinfoTitle">Edit Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'profile' %} ">
+        <div class="modal-body">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="col">
+              {{ form_address.address|as_crispy_field }}
+              {{ form_address.zip_code|as_crispy_field }}
+              {{ form_address.state|as_crispy_field}}
+              {{ form_address.country|as_crispy_field }}
+            </div>
+            <div class="col">
+              {{ form_address.office_address|as_crispy_field }}
+              {{ form_address.office_zip_code|as_crispy_field }}
+              {{ form_address.office_state|as_crispy_field}}
+              {{ form_address.office_country|as_crispy_field }}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="addressinfo" type="submit" value="Submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--skill---------------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="skill" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="skillinfoTitle">Edit Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'profile' %} ">
+        <div class="modal-body">
+
+          {% csrf_token %}
+          {{form_skill|crispy}}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="skill" type="submit" class="btn btn-primary">Save changes</button>
         </div>
       </form>
     </div>
