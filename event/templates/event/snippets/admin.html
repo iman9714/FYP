@@ -1,0 +1,94 @@
+{% load static %}
+<aside class="col-sm-9">
+
+  <div class="card m-auto border-bottom shadow sm">
+       <img class="card-img-top" src="" >
+
+       <div class="card-body mt-2 mb-2">
+         <div><a class="card-title">{{events.title}}</a>
+           <div style="text-align: right;">
+             <button type="button" class="btn btn-primary">Join Us</button>
+             <button type="button" class="btn btn-warning">Edit Detail</button>
+           </div>
+
+           Date: {{events.start_date}}<br>
+           Until: {{events.start_date}}<br>
+           Time: {{events.start_time}} ~ {{events.end_time}}<br>
+           Location: {{events.location}}
+         </div>
+       </div>
+
+       <div class="card-footer">
+           <a href="" data-toggle="modal" data-target="#addactivity"><img src="{% static 'add.svg' %}" style="float:right;" width="25" height="25"></a>
+           <h5 style="text-align: center;">Activities</h5>
+       </div>
+
+       {% for activity in events.activity.all %}
+          <div class="card-footer">
+              <h6> {{activity.title}} </h6>
+              <p>{{activity.category}} </p>
+              <p>{{activity.description}} </p>
+              <p>{{activity.collaboration}} </p>
+          </div>
+       {% endfor %}
+
+       <div class="card-footer">
+           <h5 style="text-align: center;">Logistic</h5>
+       </div>
+
+       {% for log in logistic %}
+          <div class="card-footer">
+            <h6> {{log.task}} </h6>
+            {% for x in logistic.user_id %}
+              <p>{{x.user_id}} </p>
+            {% endfor %}
+          </div>
+       {% endfor %}
+    </div>
+</aside>
+
+
+<aside class="col-sm-3" >
+  <div class="card m-auto border-bottom shadow sm">
+  <header class="card-header">
+    <h6 class="title">Recommended Volunteers </h6>
+  </header>
+  <div class="list-group list-group-flush">
+    {% for list in rec_id%}
+      {% for x in users  %}
+        {% if list == x.id %}
+          <a href="#" class="list-group-item"> {{x.username}} </a>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+  </div>
+</aside>
+
+
+
+
+<!--activity model---------------------------------------------------------------------------------->
+
+<div class="modal fade bd-example-modal-lg" id="addactivity" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="basicinformationTitle">Add Activity</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'create_event' %} ">
+        <div class="modal-body">
+        {% csrf_token %}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="basic" type="submit" value="Submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

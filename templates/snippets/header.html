@@ -26,7 +26,7 @@
 	<nav class="my-2 my-md-0 mr-md-3">
 	  {% if request.user.is_authenticated and request.user.is_staff %}
 		    <a class="p-2 text-dark" href=" "										>Home</a>
-				<a class="p-2 text-dark" href="{% url 'home' %} ">Manage Event</a>
+				<a class="p-2 text-dark" href="{% url 'event_view' %} ">Manage Event</a>
 		    <a class="p-2 text-dark" href="{% url 'profile' %} ">My Account</a>
 		    <a class="p-2 text-dark" href="{% url 'user_logout' %}"			>Logout</a>
 
@@ -36,7 +36,7 @@
 		    <a class="p-2 text-dark" href="{% url 'user_logout' %}"	>Logout</a>
 
 		{% else %}
-			<a class="p-2 text-dark" href=" "											>Event</a>
+			<a class="p-2 text-dark" href=" {% url 'event_view' %}">Event</a>
 			<a class="p-2 text-dark" href="{% url 'login' %}"			>Login</a>
 			<a class="p-2 text-dark" href="{% url 'register' %}"	>Register</a>
 

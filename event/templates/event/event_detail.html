@@ -3,77 +3,33 @@
 {% block content %}
 
 <style type="text/css">
-	.card{
-		max-width: 700px;
+	.row{
+		margin-left:10%;
+		margin-right:10px;
 	}
 	.card-body{
-		padding: 20px;
+
 	}
   .card-body a {
     font-size: 20px;
   }
 </style>
 
-<div class="container">
+
 	<div class="row">
+		{% if request.user.is_authenticated and request.user.is_staff %}
+			{% include "event/snippets/admin.html" %}
 
-		<aside class="col-sm-8">
-		  <div class="card m-auto border-bottom shadow sm">
-			     <img class="card-img-top" src="" >
-			     <div class="card-body mt-2 mb-2">
-			          <a class="card-title">{{events.title}}</a><div style="text-align: right;"><button type="button" class="btn btn-warning">Edit Detail</button> &nbsp;<button type="button" class="btn btn-primary">Join Us</button></div>
-								Date: {{events.start_date}}<br>
-		 					  Until: {{events.start_date}}<br>
-								Time: {{events.start_time}} ~ {{events.end_time}}<br>
-								Location: {{events.location}}
-					 </div>
+		{% elif request.user.is_authenticated %}
+				{% include "event/snippets/volunteer.html" %}
 
+		{% else %}
+				{% include "event/snippets/public.html" %}
 
-					 <div class="card-footer">
-							 <h5 style="text-align: center;">Activities</h5>
-					 </div>
-					 {% for activity in events.activity.all %}
-              <div class="card-footer">
-                  <h6> {{activity.title}} </h6>
-									<p>{{activity.category}} </p>
-									<p>{{activity.description}} </p>
-									<p>{{activity.collaboration}} </p>
-              </div>
-           {% endfor %}
+		{% endif %}
 
-					 <div class="card-footer">
-							 <h5 style="text-align: center;">Logistic</h5>
-					 </div>
-					 {% for log in logistic %}
-              <div class="card-footer">
-                  <h6> {{log.task}} </h6>
-									{% for x in logistic.user_id %}
-										<p>{{x.user_id}} </p>
-									{% endfor %}
-              </div>
-           {% endfor %}
-
-      </div>
-		</aside>
-{% if request.user.is_authenticated and request.user.is_staff %}
-    <aside class="col-sm-4">
-			<div class="card m-auto border-bottom shadow sm">
-			<header class="card-header">
-				<h6 class="title">Recommended Volunteers </h6>
-			</header>
-			<div class="list-group list-group-flush">
-			{% for list in rec_id%}
-				{% for x in users  %}
-					{% if list == x.id %}
-							<a href="#" class="list-group-item"> {{x.username}} </a>
-					{% endif %}
-				{% endfor %}
-			{% endfor %}
-			</div>
-			</div>
-		</aside>
-{% endif %}
 	</div>
-</div>
+
+
 
 {% endblock %}

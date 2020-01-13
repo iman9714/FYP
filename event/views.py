@@ -1,9 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from .models import Event, Activity,Logistic
 from account.models import User,Profile
 from FYP.filtering import text_to_vector, get_cosine, eventProfile,filtering
 from _operator import attrgetter
+from django.contrib import messages
 from .forms import CreateEvent
 
 
@@ -14,8 +15,9 @@ def event_view(request):
     context = {}
     events = Event.objects.all()
     activity = Activity.objects.all()
+    form = CreateEvent(request.POST or None)
 
-    context = {'events':events, 'activity':activity}
+    context = {'events':events, 'activity':activity,'form':form}
     return render(request, "event/home.html", context)
 
 
@@ -41,19 +43,21 @@ def event_detail(request, id):
     context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic}
     return render(request, "event/event_detail.html", context)
 
+
 def create_event(request):
     if request.POST:
         form = CreateEvent(request.POST or None)
         if form.is_valid():
             form.save()
             messages.success(request, 'Event successfully Create!')
-            return redirect('home')
+            return redirect('event_view')
         else:
-            messages.success(request, 'Error occur')
+            #messages.success(request, 'Error occur')
             context = {'form':form}
+            return redirect('event_view')
 
     else:
         form = CreateEvent()
         context = {'form':form}
 
-    return render(request, 'event/create_event.html', context)
+    return render(request, 'event/home.html', context)

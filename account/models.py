@@ -8,8 +8,6 @@ class Profile(models.Model):
     picture                 = models.ImageField(upload_to = 'account/profilePicture/', default='account/profilePicture/none/no-img.jpg', blank=True)
     occupation              = models.CharField(max_length=100,blank=True)
 
-    def __str__(self):
-        return self.occupation
 
 class Skill(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='skill')

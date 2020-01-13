@@ -1,0 +1,46 @@
+{% load static %}
+<aside class="col-sm-10">
+
+  <div class="card m-auto border-bottom shadow sm">
+       <img class="card-img-top" src="" >
+
+       <div class="card-body mt-2 mb-2">
+         <div><a class="card-title">{{events.title}}</a>
+           <div style="text-align: right;">
+             <button type="button" class="btn btn-success">Register to Join!</button>
+           </div>
+
+           Date: {{events.start_date}}<br>
+           Until: {{events.start_date}}<br>
+           Time: {{events.start_time}} ~ {{events.end_time}}<br>
+           Location: {{events.location}}
+         </div>
+       </div>
+
+       <div class="card-footer">
+           <h5 style="text-align: center;">Activities</h5>
+       </div>
+
+       {% for activity in events.activity.all %}
+          <div class="card-footer">
+              <h6> {{activity.title}} </h6>
+              <p>{{activity.category}} </p>
+              <p>{{activity.description}} </p>
+              <p>{{activity.collaboration}} </p>
+          </div>
+       {% endfor %}
+
+       <div class="card-footer">
+           <h5 style="text-align: center;">Logistic</h5>
+       </div>
+
+       {% for log in logistic %}
+          <div class="card-footer">
+            <h6> {{log.task}} </h6>
+            {% for x in logistic.user_id %}
+              <p>{{x.user_id}} </p>
+            {% endfor %}
+          </div>
+       {% endfor %}
+    </div>
+</aside>

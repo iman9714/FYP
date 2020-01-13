@@ -9,7 +9,7 @@ from .views import (
 
 
 urlpatterns = [
-    path('', event_view, name="home"),
+    path('event/', event_view, name="event_view"),
     path('create_event', create_event, name="create_event"),
     path('<id>/detail', event_detail, name="detail"),
 ]
