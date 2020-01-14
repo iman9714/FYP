@@ -30,7 +30,7 @@ class Activity(models.Model):
 class Logistic(models.Model):
     event               = models.ForeignKey(Event,on_delete=models.CASCADE,related_name='logistic')
     task                = models.CharField(max_length=128,blank=True)
-    user_id             = models.ManyToManyField(User, null=True)
+    user_id             = models.ManyToManyField(User, blank=True, related_name='logistice_team')
 
     def __str__(self):
         return self.task

@@ -41,13 +41,9 @@
        {% for log in logistic %}
           <div class="card-footer">
             <h6> {{log.task}} </h6>
-            {{log.user_id}}
-                {% for x in users %}
-                  {% if x.id  == log.user_id %}
-                    {{x.username}}
-
-                  {% endif%}
-                {% endfor %}
+            {% for x in log.user_id.all %}
+              {{x}}<br>
+            {% endfor %}
           </div>
        {% endfor %}
     </div>
@@ -112,13 +108,7 @@
       <form method="post" action="{% url 'detail' events.id %} ">
         <div class="modal-body">
         {% csrf_token %}
-        {{logistic_form.task| as_crispy_field}}
-        <select name="logistic-user">
-          {% for x in users%}
-            <option value={{x.id}}>{{x.username}}</option>
-          {%endfor%}
-        </select>
-
+        {{logistic_form|crispy}}
 
         </div>
         <div class="modal-footer">

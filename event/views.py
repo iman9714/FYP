@@ -31,8 +31,8 @@ def event_detail(request, id):
     logistic = Logistic.objects.filter(event = events.id)
     users = User.objects.all()
     rec = eventProfile(id)
-    activity_form = add_activity(request.POST)
-    logistic_form = add_logistic(request.POST)
+
+
 
     for x in rec:
         rec_list.append(filtering(int(x.__dict__['id']),float(x.__dict__['similarity'])))
@@ -42,7 +42,7 @@ def event_detail(request, id):
         print("ID: " + str(x.id) +" Similarity :"+ str(x.similarity))
         rec_id.append(x.id)
 
-
+    activity_form = add_activity(request.POST)
     if 'add_activity' in request.POST:
         if activity_form.is_valid():
             instance = activity_form.save(commit=False)
@@ -55,14 +55,13 @@ def event_detail(request, id):
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form}
             return redirect('detail',id=id)
 
-
+    logistic_form = add_logistic(request.POST)
     if 'add_logistic' in request.POST:
         if logistic_form.is_valid():
-            user = logistic_form.cleaned_data.get('logistic-user')
             instance = logistic_form.save(commit=False)
             instance.event = events
-            Logistic.join(user,events)
             instance.save()
+            logistic_form.save_m2m()
             messages.success(request, 'Logistic successfully Added!')
             return redirect('detail', id=id)
         else:

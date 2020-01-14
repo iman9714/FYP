@@ -16,6 +16,7 @@ class add_activity(ModelForm):
         fields = ['title','category','description','collaboration']
 
 class add_logistic(ModelForm):
+    user_id = forms.ChoiceField(choices=[(x.id, x.first_name+' '+x.last_name) for x in User.objects.all()])
     class Meta:
         model = Logistic
-        fields = ['task','user_id']
+        exclude = ['event']
