@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 <aside class="col-sm-9">
 
   <div class="card m-auto border-bottom shadow sm">
@@ -33,15 +34,20 @@
        {% endfor %}
 
        <div class="card-footer">
+           <a href="" data-toggle="modal" data-target="#addlogistic"><img src="{% static 'add.svg' %}" style="float:right;" width="25" height="25"></a>
            <h5 style="text-align: center;">Logistic</h5>
        </div>
 
        {% for log in logistic %}
           <div class="card-footer">
             <h6> {{log.task}} </h6>
-            {% for x in logistic.user_id %}
-              <p>{{x.user_id}} </p>
-            {% endfor %}
+            {{log.user_id}}
+                {% for x in users %}
+                  {% if x.id  == log.user_id %}
+                    {{x.username}}
+
+                  {% endif%}
+                {% endfor %}
           </div>
        {% endfor %}
     </div>
@@ -79,14 +85,45 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post" action="{% url 'create_event' %} ">
+      <form method="post" action="{% url 'detail' events.id %} ">
         <div class="modal-body">
         {% csrf_token %}
+        {{activity_form| crispy}}
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button name="basic" type="submit" value="Submit" class="btn btn-primary">Create</button>
+          <button name="add_activity" type="submit" value="Submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="addlogistic" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="basicinformationTitle">Add Logistic Team</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'detail' events.id %} ">
+        <div class="modal-body">
+        {% csrf_token %}
+        {{logistic_form.task| as_crispy_field}}
+        <select name="logistic-user">
+          {% for x in users%}
+            <option value={{x.id}}>{{x.username}}</option>
+          {%endfor%}
+        </select>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="add_logistic" type="submit" value="Submit" class="btn btn-primary">Create</button>
         </div>
       </form>
     </div>

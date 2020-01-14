@@ -14,7 +14,7 @@ class Event(models.Model):
     user_id             = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
-        return self.title+' '+self.location
+        return self.title
 
 class Activity(models.Model):
     event               = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='activity')
@@ -24,13 +24,21 @@ class Activity(models.Model):
     collaboration       = models.CharField(max_length=128, blank=True)
 
     def __str__(self):
-        return self.title+' '+self.category+' '+self.description+' '+self.collaboration
+        return self.title
 
 
 class Logistic(models.Model):
     event               = models.ForeignKey(Event,on_delete=models.CASCADE,related_name='logistic')
     task                = models.CharField(max_length=128,blank=True)
-    user_id             = models.ManyToManyField(User, blank=True)
+    user_id             = models.ManyToManyField(User, null=True)
 
     def __str__(self):
         return self.task
+
+    @classmethod
+    def join(cls, user, logistic):
+        logistic.user_id.add(user)
+
+    @classmethod
+    def unjoin(cls, user, logistic):
+        logistic.user_id.remove(user)

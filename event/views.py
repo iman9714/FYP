@@ -5,7 +5,7 @@ from account.models import User,Profile
 from FYP.filtering import text_to_vector, get_cosine, eventProfile,filtering
 from _operator import attrgetter
 from django.contrib import messages
-from .forms import CreateEvent
+from .forms import CreateEvent,add_activity, add_logistic
 
 
 # Create your views here.
@@ -25,11 +25,14 @@ def event_detail(request, id):
     context = {}
     rec_list = []
     rec_id = []
+
     events = Event.objects.get(pk=id)
     activity = Activity.objects.filter(event = events.id)
     logistic = Logistic.objects.filter(event = events.id)
     users = User.objects.all()
     rec = eventProfile(id)
+    activity_form = add_activity(request.POST)
+    logistic_form = add_logistic(request.POST)
 
     for x in rec:
         rec_list.append(filtering(int(x.__dict__['id']),float(x.__dict__['similarity'])))
@@ -40,12 +43,40 @@ def event_detail(request, id):
         rec_id.append(x.id)
 
 
-    context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic}
+    if 'add_activity' in request.POST:
+        if activity_form.is_valid():
+            instance = activity_form.save(commit=False)
+            instance.event = events
+            instance.save()
+            messages.success(request, 'Activity successfully Create!')
+            return redirect('detail', id=id)
+        else:
+            #messages.success(request, 'Error occur')
+            context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form}
+            return redirect('detail',id=id)
+
+
+    if 'add_logistic' in request.POST:
+        if logistic_form.is_valid():
+            user = logistic_form.cleaned_data.get('logistic-user')
+            instance = logistic_form.save(commit=False)
+            instance.event = events
+            Logistic.join(user,events)
+            instance.save()
+            messages.success(request, 'Logistic successfully Added!')
+            return redirect('detail', id=id)
+        else:
+            #messages.success(request, 'Error occur')
+            context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
+            return redirect('detail',id=id)
+
+
+    context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
     return render(request, "event/event_detail.html", context)
 
 
 def create_event(request):
-    if request.POST:
+    if 'create_event' in request.POST:
         form = CreateEvent(request.POST or None)
         if form.is_valid():
             form.save()
@@ -55,7 +86,6 @@ def create_event(request):
             #messages.success(request, 'Error occur')
             context = {'form':form}
             return redirect('event_view')
-
     else:
         form = CreateEvent()
         context = {'form':form}
