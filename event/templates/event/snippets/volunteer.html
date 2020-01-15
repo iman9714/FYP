@@ -7,13 +7,22 @@
        <div class="card-body mt-2 mb-2">
          <div><a class="card-title">{{events.title}}</a>
            <div style="text-align: right;">
-             <button type="button" class="btn btn-primary">Join Us</button>
+             <form method="post" action="{% url 'detail' events.id %} ">
+               {% csrf_token %}
+               <button name="join-event" type="submit" class="btn btn-primary">Join Us</button>
+               <button name="unjoin-event" type="submit" class="btn btn-primary">Unjoin</button>
+             </form>
            </div>
 
            Date: {{events.start_date}}<br>
            Until: {{events.start_date}}<br>
            Time: {{events.start_time}} ~ {{events.end_time}}<br>
            Location: {{events.location}}
+
+           <h6> Volunteer List: </h6>
+           {% for hu in events.user_id.all %}
+                {{hu}}<br>
+           {% endfor %}
          </div>
        </div>
 

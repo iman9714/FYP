@@ -10,6 +10,12 @@ class CreateEvent(ModelForm):
         fields = ('title','start_date','end_date','start_time','end_time','location')
 
 
+class EditEvent(ModelForm):
+    class Meta:
+        model = Event
+        fields = ('title','start_date','end_date','start_time','end_time','location')
+
+
 class add_activity(ModelForm):
     class Meta:
         model = Activity

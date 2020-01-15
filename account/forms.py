@@ -25,17 +25,17 @@ class VolunteerRegisterForm(UserCreationForm):
             return username
         raise forms.ValidationError('Username "%s" is already in use.' % username)
 
-class Add_skill(UserCreationForm):
+class Add_skill(ModelForm):
     class Meta:
         model = Skill
         fields = ['skill']
 
-class Edit_basic_profile(UserChangeForm):
+class Edit_basic_profile(ModelForm):
     class Meta:
         model = Profile
         fields = ['occupation']
 
-class Edit_basic_user(UserChangeForm):
+class Edit_basic_user(ModelForm):
     class Meta:
         model = User
         fields = ['email','first_name','last_name']
@@ -48,7 +48,7 @@ class Edit_basic_user(UserChangeForm):
             return email
         raise forms.ValidationError('Email "%s" is already in use.' % user)
 
-class Edit_basic_contact(UserChangeForm):
+class Edit_basic_contact(ModelForm):
     class Meta:
         model = Contact
         fields = ['office_contact','personal_contact']
@@ -58,7 +58,7 @@ class Edit_address(UserChangeForm):
         model = Address
         fields = ['address','zip_code','state', 'country', 'office_address', 'office_zip_code', 'office_state', 'office_country' ]
 
-class Edit_skill(UserChangeForm):
+class Edit_skill(ModelForm):
     class Meta:
         model = Skill
         fields = ['skill']

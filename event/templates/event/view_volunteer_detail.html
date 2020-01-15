@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load fontawesome %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'js/edit.js' %}">
+
+
+
+{% block content %}
+
+{% fontawesome_stylesheet %}
+<style type="text/css">
+  .card{
+    margin-left: 25%;
+    margin-right: 25%;
+
+  }
+
+  .alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+  }
+
+  .alert.success {background-color: #4CAF50;}
+  .alert.info {background-color: #2196F3;}
+  .alert.warning {background-color: #ff9800;}
+
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .closebtn:hover {
+    color: black;
+  }
+
+</style>
+
+<div class="card">
+  <h4 class="card-header" style="text-align:center;">My Profile</h4>
+  <div class="card-body" >
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+
+            <h5 style="text-align: left;">Basic Information</h5>
+            <hr>
+            <img src="{{ users.profile.picture.url }}" class="img-responsive" style="width: 20%; margin-left: 40%;" />
+            <h3 style="text-align: center;  text-transform:uppercase;" >{{users.first_name}} {{users.last_name}}</h3>
+            <hr>
+
+            <div class="row xs-mt-20" style="text-align:left;">
+              <div class="col-sm-4">
+                <ul class="fa-ul">
+                  <li> {% fontawesome_icon 'user' li=True %}{{users.username}}</li>
+                  <li> {% fontawesome_icon 'calendar' li=True %}{{users.date_joined}}</li>
+                </ul>
+              </div>
+              <div class="col-sm-4">
+                <ul class="fa-ul">
+                  <li> {% fontawesome_icon 'envelope' li=True %}{{users.email}}</li>
+                  {% for x in contact %}
+                    <li> {% fontawesome_icon 'phone-square' li=True %}{{x.office_contact}}</li>
+                    <li> {% fontawesome_icon 'mobile' li=True %}{{x.personal_contact}}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="col-sm-4">
+                <ul class="fa-ul">
+                  {% for x in profile %}
+                    <li> {% fontawesome_icon 'user-md' li=True %}{{ x.occupation }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+
+        </div>
+       </div>
+      </div>
+
+      <div class="row">
+      <div class="col-sm-12">
+        <div class="border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;" id="demo" class="">
+
+            <h5 style="text-align: left;">Address</h5>
+
+            <hr>
+            {% for add in address %}
+              </h6>{{add.address}}</h6><br>
+              </h6>{{add.zip_code}}</h6><br>
+              </h6>{{add.state}}</h6><br>
+              </h6>{{add.country}}</h6><br>
+              <div class="collapse" id="address">
+                <hr>
+
+                </h6>{{add.office_address}}</h6><br>
+                </h6>{{add.office_zip_code}}</h6><br>
+                </h6>{{add.office_state}}</h6><br>
+                </h6>{{add.office_country}}</h6><br>
+              </div>
+            {% endfor %}
+
+        </div>
+        </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12">
+            <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+
+                <h5 style="text-align: left;">Skill</h5>
+                <hr>
+                {% for x in skill %}
+                  </h6>{{x.skill}}</h6><br>
+                {% endfor %}
+            </div>
+          </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+
+                  <h5 style="text-align: left;">Cause</h5>
+                  <hr>
+                  {% for x in cause %}
+                    </h6>{{x.cause}}</h6><br>
+                  {% endfor %}
+              </div>
+            </div>
+            </div>
+
+        <div class="row">
+        <div class="col-sm-12">
+          <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+
+              <h5 style="text-align: left;">NGO</h5>
+              <hr>
+              {% for x in ngo %}
+                </h6>{{x.name}}</h6><br>
+              {% endfor %}
+          </div>
+        </div>
+        </div>
+
+      <div class="row">
+      <div class="col-sm-12">
+        <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+
+            <h5 style="text-align: left;">Education</h5>
+            <hr>
+            {% for x in education %}
+              </h6>{{x.level}}</h6><br>
+            {% endfor %}
+        </div>
+      </div>
+      </div>
+
+    <div class="row">
+    <div class="col-sm-12">
+      <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+
+          <h5 style="text-align: left;">Experiance</h5>
+          <hr>
+          {% for x in experiance %}
+            </h6>{{x.detail}}</h6><br>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+
+      </div>
+    </div>
+
+
+
+{% endblock content %}

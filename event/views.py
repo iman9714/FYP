@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import Event, Activity,Logistic
-from account.models import User,Profile
+from account.models import Profile,Skill,Cause,NGO,Address,Education,Contact,Experiance
 from FYP.filtering import text_to_vector, get_cosine, eventProfile,filtering
 from _operator import attrgetter
 from django.contrib import messages
-from .forms import CreateEvent,add_activity, add_logistic
+from .forms import CreateEvent,add_activity, add_logistic, EditEvent
 
 
 # Create your views here.
@@ -51,7 +51,6 @@ def event_detail(request, id):
             messages.success(request, 'Activity successfully Create!')
             return redirect('detail', id=id)
         else:
-            #messages.success(request, 'Error occur')
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form}
             return redirect('detail',id=id)
 
@@ -65,12 +64,37 @@ def event_detail(request, id):
             messages.success(request, 'Logistic successfully Added!')
             return redirect('detail', id=id)
         else:
-            #messages.success(request, 'Error occur')
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
             return redirect('detail',id=id)
 
+    if 'join-event' in request.POST:
+        events = Event.objects.get(pk=id)
+        Event.join(request.user,events)
+        messages.success(request, 'You are successfully Added to the Volunteers List!')
 
-    context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
+        context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
+        return redirect('detail',id=id)
+
+    if 'unjoin-event' in request.POST:
+        events = Event.objects.get(pk=id)
+        Event.unjoin(request.user,events)
+        messages.success(request, 'You are successfully Remove from the Volunteers List!')
+
+        context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
+        return redirect('detail',id=id)
+
+    event_edit = EditEvent(request.POST or None ,instance=events)
+    if 'edit-event' in request.POST:
+        if event_edit.is_valid():
+            event_edit.save()
+            messages.success(request, 'Event is successfully Updated!')
+            return redirect('detail', id=id)
+        else:
+            context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'event_edit':event_edit}
+            return redirect('detail',id=id)
+
+
+    context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form,'event_edit':event_edit}
     return render(request, "event/event_detail.html", context)
 
 
@@ -90,3 +114,18 @@ def create_event(request):
         context = {'form':form}
 
     return render(request, 'event/home.html', context)
+
+
+def view_volunteer_detail(request, volunteer_id):
+    users = User.objects.get(pk=volunteer_id)
+    profile = Profile.objects.filter(user = users.id)
+    skill = Skill.objects.all().filter(profile = users.profile.id)
+    cause = Cause.objects.filter(profile = users.profile.id)
+    ngo = NGO.objects.filter(profile = users.profile.id)
+    address = Address.objects.filter(profile = users.profile.id)
+    education = Education.objects.filter(profile = users.profile.id)
+    contact = Contact.objects.filter(profile = users.profile.id)
+    experiance = Experiance.objects.filter(profile = users.profile.id)
+
+    context = { 'users': users, 'profile':profile, 'skill':skill,'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
+    return render(request, 'event/view_volunteer_detail.html', context)

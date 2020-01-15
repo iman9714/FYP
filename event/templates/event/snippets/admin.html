@@ -8,14 +8,24 @@
        <div class="card-body mt-2 mb-2">
          <div><a class="card-title">{{events.title}}</a>
            <div style="text-align: right;">
-             <button type="button" class="btn btn-primary">Join Us</button>
-             <button type="button" class="btn btn-warning">Edit Detail</button>
+             <form method="post" action="{% url 'detail' events.id %} ">
+               {% csrf_token %}
+                  <button name="unjoin-event" type="submit" class="btn btn-primary">Unjoin</button>
+                  <button name="join-event" type="submit" class="btn btn-primary">Join Us</button>
+             </form>
+             <button data-toggle="modal" data-target="#editevent" class="btn btn-warning">Edit Detail</button>
            </div>
+
 
            Date: {{events.start_date}}<br>
            Until: {{events.start_date}}<br>
            Time: {{events.start_time}} ~ {{events.end_time}}<br>
-           Location: {{events.location}}
+           Location: {{events.location}}<br>
+
+           <h6> Volunteer List: </h6>
+           {% for hu in events.user_id.all %}
+                {{hu}}<br>
+           {% endfor %}
          </div>
        </div>
 
@@ -40,9 +50,9 @@
 
        {% for log in logistic %}
           <div class="card-footer">
-            <h6> {{log.task}} </h6>
+            <h6>Task : {{log.task}} </h6>
             {% for x in log.user_id.all %}
-              {{x}}<br>
+            <h6>In-Charge : {{x}}</h6>
             {% endfor %}
           </div>
        {% endfor %}
@@ -59,7 +69,7 @@
     {% for list in rec_id%}
       {% for x in users  %}
         {% if list == x.id %}
-          <a href="#" class="list-group-item"> {{x.username}} </a>
+          <a href="{% url 'view_volunteer_profile' x.id %}"  class="list-group-item" target="blank"> {{x.username}} </a>
         {% endif %}
       {% endfor %}
     {% endfor %}
@@ -114,6 +124,31 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button name="add_logistic" type="submit" value="Submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="editevent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="basicinformationTitle">Edit Event Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'detail' events.id %} ">
+        <div class="modal-body">
+        {% csrf_token %}
+        {{event_edit|crispy}}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="edit-event" type="submit" value="Submit" class="btn btn-primary">Update</button>
         </div>
       </form>
     </div>

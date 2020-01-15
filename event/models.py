@@ -16,6 +16,14 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+    @classmethod
+    def join(cls, user, event):
+        event.user_id.add(user)
+
+    @classmethod
+    def unjoin(cls, user, event):
+        event.user_id.remove(user)
+
 class Activity(models.Model):
     event               = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='activity')
     title               = models.CharField(max_length=128,blank=True)
@@ -34,11 +42,3 @@ class Logistic(models.Model):
 
     def __str__(self):
         return self.task
-
-    @classmethod
-    def join(cls, user, logistic):
-        logistic.user_id.add(user)
-
-    @classmethod
-    def unjoin(cls, user, logistic):
-        logistic.user_id.remove(user)
