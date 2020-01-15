@@ -102,13 +102,16 @@
               </h6>{{add.country}}</h6><br>
               <div class="collapse" id="address">
                 <hr>
-
                 </h6>{{add.office_address}}</h6><br>
                 </h6>{{add.office_zip_code}}</h6><br>
                 </h6>{{add.office_state}}</h6><br>
                 </h6>{{add.office_country}}</h6><br>
               </div>
             {% endfor %}
+            <div style="text-align:center;">
+              <hr>
+              <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#address"><ul class="fa-ul"><li> {% fontawesome_icon 'arrow-down' li=True %}</li></ul></button>
+            </div>
 
         </div>
         </div>

@@ -6,6 +6,7 @@ from FYP.filtering import text_to_vector, get_cosine, eventProfile,filtering
 from _operator import attrgetter
 from django.contrib import messages
 from .forms import CreateEvent,add_activity, add_logistic, EditEvent
+from django.forms import modelformset_factory, inlineformset_factory
 
 
 # Create your views here.

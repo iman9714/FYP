@@ -11,7 +11,7 @@
              <form method="post" action="{% url 'detail' events.id %} ">
                {% csrf_token %}
                   <button name="unjoin-event" type="submit" class="btn btn-primary">Unjoin</button>
-                  <button name="join-event" type="submit" class="btn btn-primary">Join Us</button>
+                  <button name="join-event" type="submit" class="btn btn-primary">Join Event</button>
              </form>
              <button data-toggle="modal" data-target="#editevent" class="btn btn-warning">Edit Detail</button>
            </div>
