@@ -6,7 +6,7 @@ from FYP.filtering import text_to_vector, get_cosine, eventProfile,filtering
 from _operator import attrgetter
 from django.contrib import messages
 from .forms import CreateEvent,add_activity, add_logistic, EditEvent
-from django.forms import modelformset_factory, inlineformset_factory
+from django.forms import modelformset_factory, inlineformset_factory,formset_factory
 
 
 # Create your views here.
@@ -93,6 +93,12 @@ def event_detail(request, id):
         else:
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'event_edit':event_edit}
             return redirect('detail',id=id)
+
+    if 'delete-event' in request.POST:
+        events.delete()
+        messages.success(request, 'Event is successfully Deleted!')
+        return redirect('event_view')
+
 
 
     context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form,'event_edit':event_edit}
