@@ -10,11 +10,12 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post" action="{% url 'profile' %} ">
+      <form method="post" action="{% url 'profile' %} " enctype="multipart/form-data">
         <div class="modal-body">
 
           {% csrf_token %}
             <div class="form-group">
+              {{ form_profile.picture|as_crispy_field }}
               {{ form_user.first_name|as_crispy_field }}
               {{ form_user.last_name|as_crispy_field }}
               {{ form_user.email|as_crispy_field}}
@@ -71,12 +72,12 @@
   </div>
 </div>
 
-<!--skill---------------------------------------------------------------------------------------------------------------------------->
+<!--add skill---------------------------------------------------------------------------------------------------------------------------->
 <div class="modal fade" id="skill" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="skillinfoTitle">Edit Detail</h5>
+        <h5 class="modal-title" id="skillinfoTitle">Add Skill</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -85,12 +86,118 @@
         <div class="modal-body">
 
           {% csrf_token %}
-          {{form_skill|crispy}}
+          {{add_skill_form|crispy}}
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button name="skill" type="submit" class="btn btn-primary">Save changes</button>
+          <button name="add-skill" type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--add cause---------------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="cause" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="causeinfoTitle">Add Cause</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'profile' %} ">
+        <div class="modal-body">
+
+          {% csrf_token %}
+          {{add_cause_form|crispy}}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="add-cause" type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--add NGO---------------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="ngo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="causeinfoTitle">Add NGO</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'profile' %} ">
+        <div class="modal-body">
+
+          {% csrf_token %}
+          {{add_ngo_form|crispy}}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="add-ngo" type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--add Education---------------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="education" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="causeinfoTitle">Add Education</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'profile' %} ">
+        <div class="modal-body">
+
+          {% csrf_token %}
+          {{add_education_form|crispy}}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="add-education" type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--add Experiance---------------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="experiance" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="causeinfoTitle">Add Experiance</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'profile' %} ">
+        <div class="modal-body">
+
+          {% csrf_token %}
+          {{add_experiance_form|crispy}}
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button name="add-experiance" type="submit" class="btn btn-primary">Add</button>
         </div>
       </form>
     </div>

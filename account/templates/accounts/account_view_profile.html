@@ -66,7 +66,7 @@
           </a>
             <h5 style="text-align: left;">Basic Information</h5>
             <hr>
-            <img src="{{ user.profile.picture.url }}" class="img-responsive" style="width: 20%; margin-left: 40%;" />
+            <img src="{{ user.profile.picture.url }}" class="img-responsive" style="width: 20%; margin-left: 40%; border-radius:50%;" />
             <h3 style="text-align: center;  text-transform:uppercase;" >{{user.first_name}} {{user.last_name}}</h3>
             <hr>
 
@@ -109,16 +109,15 @@
 
             <hr>
             {% for add in address %}
+              <h5>Home Address</h5>
               </h6>{{add.address}}</h6><br>
-              </h6>{{add.zip_code}}</h6><br>
-              </h6>{{add.state}}</h6><br>
+              </h6>{{add.zip_code}},{{add.state}}</h6><br>
               </h6>{{add.country}}</h6><br>
               <div class="collapse" id="address">
-                <hr>
-
+              <hr>
+                <h5>Office Address</h5>
                 </h6>{{add.office_address}}</h6><br>
-                </h6>{{add.office_zip_code}}</h6><br>
-                </h6>{{add.office_state}}</h6><br>
+                </h6>{{add.office_zip_code}},{{add.office_state}}</h6><br>
                 </h6>{{add.office_country}}</h6><br>
               </div>
             {% endfor %}
@@ -131,76 +130,98 @@
         </div>
 
         <div class="row">
-          <div class="col-sm-12">
-            <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
+          <div class="col-sm-6">
+            <div class=" border shadow-sm" style="width:auto;  margin:10px; padding: 20px;">
               <a href="" data-toggle="modal" data-target="#skill">
                 <img src="{% static 'add.svg' %}" style="float:right;" width="20" height="20">
               </a>
                 <h5 style="text-align: left;">Skill</h5>
                 <hr>
                 {% for x in skill %}
-                  </h6>{{x.skill}}</h6><br>
+                  <div class="collapse" id="skill">
+                    <h3><button  class="btn btn-primary">{{x.skill}}</button></h3>
+                  </div>
                 {% endfor %}
+
+                <div style="text-align:center;">
+                  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#skill"><ul class="fa-ul"><li> {% fontawesome_icon 'arrow-down' li=True %}</li></ul></button>
+                </div>
             </div>
-          </div>
           </div>
 
-          <div class="row">
-            <div class="col-sm-12">
-              <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
-                <a href="" data-toggle="modal" data-target="#exampleModalCenter">
-                  <img src="{% static 'add.svg' %}" style="float:right;" width="20" height="20">
-                </a>
-                  <h5 style="text-align: left;">Cause</h5>
-                  <hr>
-                  {% for x in cause %}
-                    </h6>{{x.cause}}</h6><br>
-                  {% endfor %}
-              </div>
+          <div class="col-sm-6">
+            <div class=" border shadow-sm" style="width: auto;  margin:10px; padding: 20px;">
+              <a href="" data-toggle="modal" data-target="#cause">
+                <img src="{% static 'add.svg' %}" style="float:right;" width="20" height="20">
+              </a>
+                <h5 style="text-align: left;">Cause</h5>
+                <hr>
+                {% for x in cause %}
+                <div class="collapse" id="cause">
+                  <h3><button  class="btn btn-primary">{{x.cause}}</button></h3>
+                </div>
+                {% endfor %}
+                <div style="text-align:center;">
+                  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#cause"><ul class="fa-ul"><li> {% fontawesome_icon 'arrow-down' li=True %}</li></ul></button>
+                </div>
             </div>
-            </div>
+          </div>
+          </div>
 
         <div class="row">
-        <div class="col-sm-12">
-          <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
-            <a href="" data-toggle="modal" data-target="#exampleModalCenter">
-              <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+        <div class="col-sm-6">
+          <div class=" border shadow-sm" style="width: auto;  margin:10px; padding: 20px;">
+            <a href="" data-toggle="modal" data-target="#ngo">
+              <img src="{% static 'add.svg' %}" style="float:right;" alt="Add NGO" width="20" height="20">
             </a>
               <h5 style="text-align: left;">NGO</h5>
               <hr>
               {% for x in ngo %}
-                </h6>{{x.name}}</h6><br>
+                <div class="collapse" id="ngo">
+                  <h3><button  class="btn btn-primary">{{x.name}}</button></h3>
+                </div>
               {% endfor %}
+              <div style="text-align:center;">
+                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#ngo"><ul class="fa-ul"><li> {% fontawesome_icon 'arrow-down' li=True %}</li></ul></button>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class=" border shadow-sm" style="width: auto;  margin:10px; padding: 20px;">
+            <a href="" data-toggle="modal" data-target="#education">
+              <img src="{% static 'add.svg' %}" style="float:right;" width="20" height="20">
+            </a>
+              <h5 style="text-align: left;">Education</h5>
+              <hr>
+              {% for x in education %}
+              <div class="collapse" id="edu">
+                <h3><button  class="btn btn-warning">{{x.level}}</button> <button class="btn btn-primary">{{x.description}}</button></h3>
+              </div>
+              {% endfor %}
+              <div style="text-align:center;">
+                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#edu"><ul class="fa-ul"><li> {% fontawesome_icon 'arrow-down' li=True %}</li></ul></button>
+              </div>
           </div>
         </div>
         </div>
 
-      <div class="row">
-      <div class="col-sm-12">
-        <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
-          <a href="" data-toggle="modal" data-target="#exampleModalCenter">
-            <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
-          </a>
-            <h5 style="text-align: left;">Education</h5>
-            <hr>
-            {% for x in education %}
-              </h6>{{x.level}}</h6><br>
-            {% endfor %}
-        </div>
-      </div>
-      </div>
-
     <div class="row">
     <div class="col-sm-12">
       <div class=" border shadow-sm" style="width: 890px;  margin:10px; padding: 20px;">
-        <a href="" data-toggle="modal" data-target="#exampleModalCenter">
-          <img src="{% static 'editbtn.png' %}" style="float:right;" width="20" height="20">
+        <a href="" data-toggle="modal" data-target="#experiance">
+          <img src="{% static 'add.svg' %}" style="float:right;" width="20" height="20">
         </a>
           <h5 style="text-align: left;">Experiance</h5>
           <hr>
           {% for x in experiance %}
+          <div class="collapse" id="exp">
             </h6>{{x.detail}}</h6><br>
+          </div>
           {% endfor %}
+          <div style="text-align:center;">
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#exp"><ul class="fa-ul"><li> {% fontawesome_icon 'arrow-down' li=True %}</li></ul></button>
+          </div>
       </div>
     </div>
   </div>

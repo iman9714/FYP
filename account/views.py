@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
-from .forms import VolunteerRegisterForm,Edit_basic_user,Edit_basic_profile,Edit_basic_contact,Edit_address,Add_skill
+from .forms import VolunteerRegisterForm,Edit_basic_user,Edit_basic_profile,Edit_basic_contact,Edit_address,Add_skill,Add_cause,Add_NGO,Add_education, Add_experiance
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Profile,Skill,Cause,NGO,Address,Education,Contact,Experiance
@@ -56,14 +56,22 @@ def account_view_profile(request, pk=None):
 
     #edit basic information
     if 'basic' in request.POST:
-        form_user = Edit_basic_user(request.POST , instance=user)
-        form_profile = Edit_basic_profile(request.POST , instance=profile.first())
-        form_contact = Edit_basic_contact(request.POST , instance=contact.first())
+        form_user = Edit_basic_user(request.POST or None, instance=user)
+        form_profile = Edit_basic_profile(request.POST or None,request.FILES, instance=profile.first())
+        form_contact = Edit_basic_contact(request.POST or None, instance=contact.first())
 
         if form_user.is_valid() and form_profile.is_valid() and form_contact.is_valid():
-            form_user.save()
-            form_profile.save()
-            form_contact.save()
+            instance = form_user.save(commit=False)
+            instance2 = form_profile.save(commit=False)
+            instance3 = form_contact.save(commit=False)
+
+            instance.user = user
+            instance2.profile = Profile.objects.filter(user = user.id).first()
+            instance3.profile = Profile.objects.filter(user = user.id).first()
+
+            instance.save()
+            instance2.save()
+            instance3.save()
             messages.success(request, 'Your are successfully Updated!')
             return redirect('profile')
 
@@ -76,10 +84,11 @@ def account_view_profile(request, pk=None):
 
     #edit address
     if 'addressinfo' in request.POST:
-        form_address = Edit_address(request.POST , instance=address.first())
-
-        if form_address.is_valid() :
-            form_address.save()
+        form_address = Edit_address(request.POST or None, instance=address.first())
+        if form_address.is_valid():
+            instance = form_address.save(commit=False)
+            instance.profile = Profile.objects.filter(user = user.id).first()
+            instance.save()
             messages.success(request, 'Your Address successfully Updated!')
             return redirect('profile')
 
@@ -88,11 +97,73 @@ def account_view_profile(request, pk=None):
         context = {'form_address': form_address,'user': user, 'profile':profile, 'skill':skill,
         'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
 
-    #edit skill
+    #add skill
+    add_skill_form = Add_skill(request.POST)
+    if 'add-skill' in request.POST:
+        if add_skill_form.is_valid():
+            instance = add_skill_form.save(commit=False)
+            instance.profile = Profile.objects.filter(user = user.id).first()
+            instance.save()
+            messages.success(request, 'Skill successfully Added!')
+            return redirect('profile')
+        else:
+            context = {'add_skill_form':add_skill_form,'form_address': form_address,'user': user, 'profile':profile, 'skill':skill,
+            'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
+
+    #add cause
+    add_cause_form = Add_cause(request.POST)
+    if 'add-cause' in request.POST:
+        if add_cause_form.is_valid():
+            instance = add_cause_form.save(commit=False)
+            instance.profile = Profile.objects.filter(user = user.id).first()
+            instance.save()
+            messages.success(request, 'Cause successfully Added!')
+            return redirect('profile')
+        else:
+            context = {'add_cause_form':add_cause_form,'add_skill_form':add_skill_form,'form_address': form_address,'user': user, 'profile':profile, 'skill':skill,
+            'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
 
 
+    #add NGO
+    add_ngo_form = Add_NGO(request.POST)
+    if 'add-ngo' in request.POST:
+        if add_ngo_form.is_valid():
+            instance = add_ngo_form.save(commit=False)
+            instance.profile = Profile.objects.filter(user = user.id).first()
+            instance.save()
+            messages.success(request, 'NGO successfully Added!')
+            return redirect('profile')
+        else:
+            context = {'add_ngo_form':add_ngo_form, 'add_cause_form':add_cause_form,'add_skill_form':add_skill_form,'form_address': form_address,'user': user, 'profile':profile, 'skill':skill,
+            'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
 
-    context = {'form_user': form_user,'form_profile': form_profile, 'form_contact': form_contact,'form_address': form_address, 'user': user, 'profile':profile, 'skill':skill,
+    #add Education
+    add_education_form = Add_education(request.POST)
+    if 'add-education' in request.POST:
+        if add_education_form.is_valid():
+            instance = add_education_form.save(commit=False)
+            instance.profile = Profile.objects.filter(user = user.id).first()
+            instance.save()
+            messages.success(request, 'Education successfully Added!')
+            return redirect('profile')
+        else:
+            context = {'add_education_form':add_education_form, 'add_ngo_form':add_ngo_form, 'add_cause_form':add_cause_form,'add_skill_form':add_skill_form,'form_address': form_address,'user': user, 'profile':profile, 'skill':skill,
+            'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
+
+
+    add_experiance_form = Add_experiance(request.POST)
+    if 'add-experiance' in request.POST:
+        if add_experiance_form.is_valid():
+            instance = add_experiance_form.save(commit=False)
+            instance.profile = Profile.objects.filter(user = user.id).first()
+            instance.save()
+            messages.success(request, 'Experiance successfully Added!')
+            return redirect('profile')
+        else:
+            context = {'add_experiance_form':add_experiance_form, 'add_education_form':add_education_form, 'add_ngo_form':add_ngo_form, 'add_cause_form':add_cause_form,'add_skill_form':add_skill_form,'form_address': form_address,'user': user, 'profile':profile, 'skill':skill,
+            'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
+
+    context = {'add_experiance_form':add_experiance_form,'add_education_form':add_education_form, 'add_ngo_form':add_ngo_form,'add_cause_form':add_cause_form,'add_skill_form':add_skill_form,'form_user': form_user,'form_profile': form_profile, 'form_contact': form_contact,'form_address': form_address, 'user': user, 'profile':profile, 'skill':skill,
     'cause':cause, 'ngo':ngo, 'address':address,'education':education, 'contact':contact, 'experiance':experiance}
     return render(request, 'accounts/account_view_profile.html', context)
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
