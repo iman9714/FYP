@@ -1,4 +1,7 @@
 {% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
 <div class="modal fade" id="createevent" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -11,12 +14,7 @@
       <form method="post" action="{% url 'create_event' %} ">
         <div class="modal-body">
         {% csrf_token %}
-        {{ form.title|as_crispy_field }}
-        {{ form.start_date|as_crispy_field }}
-        {{ form.end_date|as_crispy_field }}
-        {{ form.start_time|as_crispy_field }}
-        {{ form.end_time|as_crispy_field }}
-        {{ form.location|as_crispy_field }}
+        {{ form|crispy}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

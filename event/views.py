@@ -2,16 +2,16 @@ from django.shortcuts import render, redirect,get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import Event, Activity,Logistic
 from account.models import Profile,Skill,Cause,NGO,Address,Education,Contact,Experiance
-from FYP.filtering import text_to_vector, get_cosine, eventProfile,filtering
+from FYP.filtering import text_to_vector, get_cosine, eventProfile,filtering,event_recommender
 from _operator import attrgetter
 from django.contrib import messages
 from .forms import CreateEvent,add_activity, add_logistic, EditEvent
-from django.forms import modelformset_factory, inlineformset_factory,formset_factory
 
 
-# Create your views here.
 
 
+
+#--------list of event-------------------------------------------------------
 def event_view(request):
     context = {}
     events = Event.objects.all()
@@ -19,9 +19,28 @@ def event_view(request):
     form = CreateEvent(request.POST or None)
 
     context = {'events':events, 'activity':activity,'form':form}
+    return render(request, "event/event_list.html", context)
+
+#--------list of Suggested event for volunteer-------------------------------------------------------
+def recommended_event(request):
+    context = {}
+    rec_list = []
+    rec_id = []
+    events = Event.objects.all()
+    rec_event = event_recommender(request.user.id)
+
+    for x in rec_event:
+        rec_list.append(filtering(int(x.__dict__['id']),float(x.__dict__['similarity'])))
+
+    rec_list2 = sorted(rec_list, key=attrgetter('similarity'), reverse=True)
+    for x in rec_list2:
+        print("ID: " + str(x.id) +" Similarity :"+ str(x.similarity))
+        rec_id.append(x.id)
+
+    context = {'rec_id':rec_id,'events':events}
     return render(request, "event/home.html", context)
 
-
+#--------Event detail-------------------------------------------------------
 def event_detail(request, id):
     context = {}
     rec_list = []
@@ -34,7 +53,7 @@ def event_detail(request, id):
     rec = eventProfile(id)
 
 
-
+#--------Matching Technique class Filtering-------------------------------------------------------
     for x in rec:
         rec_list.append(filtering(int(x.__dict__['id']),float(x.__dict__['similarity'])))
 
@@ -43,6 +62,7 @@ def event_detail(request, id):
         print("ID: " + str(x.id) +" Similarity :"+ str(x.similarity))
         rec_id.append(x.id)
 
+#--------add activity-------------------------------------------------------
     activity_form = add_activity(request.POST)
     if 'add_activity' in request.POST:
         if activity_form.is_valid():
@@ -55,6 +75,7 @@ def event_detail(request, id):
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form}
             return redirect('detail',id=id)
 
+#--------add logistic-------------------------------------------------------
     logistic_form = add_logistic(request.POST)
     if 'add_logistic' in request.POST:
         if logistic_form.is_valid():
@@ -68,6 +89,7 @@ def event_detail(request, id):
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
             return redirect('detail',id=id)
 
+#--------Join Event-------------------------------------------------------
     if 'join-event' in request.POST:
         events = Event.objects.get(pk=id)
         Event.join(request.user,events)
@@ -76,6 +98,7 @@ def event_detail(request, id):
         context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
         return redirect('detail',id=id)
 
+#--------Unjoin Event-------------------------------------------------------
     if 'unjoin-event' in request.POST:
         events = Event.objects.get(pk=id)
         Event.unjoin(request.user,events)
@@ -84,6 +107,7 @@ def event_detail(request, id):
         context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
         return redirect('detail',id=id)
 
+#--------Edit event------------------------------------------------------
     event_edit = EditEvent(request.POST or None ,instance=events)
     if 'edit-event' in request.POST:
         if event_edit.is_valid():
@@ -94,17 +118,19 @@ def event_detail(request, id):
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'event_edit':event_edit}
             return redirect('detail',id=id)
 
+#--------Delete event-------------------------------------------------------
     if 'delete-event' in request.POST:
         events.delete()
         messages.success(request, 'Event is successfully Deleted!')
         return redirect('event_view')
 
+    current_event  = request.user.event_set.filter(pk=id)
 
-
-    context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form,'event_edit':event_edit}
+    context = {'current_event':current_event,'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form,'event_edit':event_edit}
     return render(request, "event/event_detail.html", context)
 
 
+#--------create Event-------------------------------------------------------
 def create_event(request):
     if 'create_event' in request.POST:
         form = CreateEvent(request.POST or None)
@@ -120,9 +146,9 @@ def create_event(request):
         form = CreateEvent()
         context = {'form':form}
 
-    return render(request, 'event/home.html', context)
+    return render(request, 'event/event_list.html', context)
 
-
+#--------View Volunteer Detail-------------------------------------------------------
 def view_volunteer_detail(request, volunteer_id):
     users = User.objects.get(pk=volunteer_id)
     profile = Profile.objects.filter(user = users.id)

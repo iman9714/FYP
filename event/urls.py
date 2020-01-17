@@ -6,10 +6,12 @@ from .views import (
     event_detail,
     create_event,
     view_volunteer_detail,
+    recommended_event,
     )
 
 
 urlpatterns = [
+    path('home/', recommended_event, name="home"),
     path('event/', event_view, name="event_view"),
     path('create_event', create_event, name="create_event"),
     path('<id>/detail', event_detail, name="detail"),

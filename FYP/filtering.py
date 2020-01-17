@@ -13,7 +13,51 @@ class filtering(object):
         self.id = id
         self.similarity = similarity
 
+#-----------------------------filtering event based on user profile-------------------------------------------------------------
+def event_recommender(user_id):
+    rec = []
+    string = ""
+    users = User.objects.get(pk = user_id)
+    profile = Profile.objects.all().filter(user = users.id)
+    skill = Skill.objects.all().filter(profile = users.profile.id)
+    cause = Cause.objects.all().filter(profile = users.profile.id)
+    ngo = NGO.objects.all().filter(profile = users.profile.id)
+    address = Address.objects.all().filter(profile = users.profile.id)
+    education = Education.objects.all().filter(profile = users.profile.id)
+    experiance = Experiance.objects.all().filter(profile = users.profile.id)
+    for x in profile:
+        string = string +' '+ x.occupation
+    for x in skill:
+        string = string +' '+  x.skill
+    for x in cause:
+        string = string +' '+  x.cause
+    for x in ngo:
+        string = string +' '+  x.name
+    for x in address:
+        string = string +' '+  x.address+' '+  x.zip_code+' '+  x.state+' '+  x.office_address+' '+  x.office_zip_code+' '+  x.office_state
+    for x in education:
+        string = string +' '+  x.level+' '+  x.description
+    for x in experiance:
+        string = string +' '+  x.detail
 
+    userprofile = text_to_vector(string)
+
+
+    events = Event.objects.all()
+    for evn in events:
+        activity = Activity.objects.all().filter(event = evn.id)
+        eventDetail = evn.title +" "+ evn.location
+        for x in activity:
+            eventDetail = eventDetail +" "+ x.title +" "+ x.category +" "+ x.description
+        eventVec = text_to_vector(eventDetail)
+
+        similarity = get_cosine(eventVec,userprofile)
+        if similarity > 0.0:
+            rec.append(filtering(evn.id,similarity))
+
+    return rec
+
+#---------------------filtering suitable user based on particular event-------------------------------------------------------
 def eventProfile(id):
 
     rec = []

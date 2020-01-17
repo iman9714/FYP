@@ -1,46 +1,67 @@
 {% load static %}
-<aside class="col-sm-10">
+{% load crispy_forms_tags %}
+{% load fontawesome %}
 
-  <div class="card m-auto border-bottom shadow sm">
-       <img class="card-img-top" src="" >
+<div class="card border-bottom shadow sm" style="width:88%;">
 
-       <div class="card-body mt-2 mb-2">
-         <div><a class="card-title">{{events.title}}</a>
-           <div style="text-align: right;">
-             <button type="button" class="btn btn-success">Register to Join!</button>
-           </div>
+  <div class="card-header">
+      <table style="float:right;"><tr>
+        <td>
+            <form action="{% url 'register' %} ">
+              {% csrf_token %}
+                   <button name="unjoin-event" type="submit" class="btn btn-success">Register</button>
+            </form>
+        </td>
+      </tr></table>
+  </div>
 
-           Date: {{events.start_date}}<br>
-           Until: {{events.start_date}}<br>
-           Time: {{events.start_time}} ~ {{events.end_time}}<br>
-           Location: {{events.location}}
-         </div>
-       </div>
+<div class="card-body">
+  <h2 >{{events.title}}</h2>
+  </p>Event Description</p>
+  <img src="{% static 'baner.jpg' %}" class="rounded mx-auto d-block">
+  <hr>
+  <div class="row xs-mt-20" style="text-align:left;">
 
-       <div class="card-footer">
-           <h5 style="text-align: center;">Activities</h5>
-       </div>
+  <div class="col-sm-4">
+      <h4>Detail</h4>
+      <ul class="fa-ul">
+        <li>{% fontawesome_icon 'calendar' li=True %} Date: {{events.start_date}} ~ {{events.start_date}}</li>
+        <li>{% fontawesome_icon 'hourglass-half' li=True %} Time: {{events.start_time}} ~ {{events.end_time}}</li>
+        <li>{% fontawesome_icon 'map-marker' li=True %} Location: {{events.location}}</li>
+      </ul>
+  </div>
+  <div class="col-sm-4">
+      <h4>Category</h4>
+      {% for activity in events.activity.all %}
+        <a class="badge badge-info">{{activity.category}}</a>
+      {% endfor %}
+  </div>
 
-       {% for activity in events.activity.all %}
-          <div class="card-footer">
-              <h6> {{activity.title}} </h6>
-              <p>{{activity.category}} </p>
-              <p>{{activity.description}} </p>
-              <p>{{activity.collaboration}} </p>
-          </div>
-       {% endfor %}
+  </div>
 
-       <div class="card-footer">
-           <h5 style="text-align: center;">Logistic</h5>
-       </div>
+</div>
+</div>
 
-       {% for log in logistic %}
-          <div class="card-footer">
-            <h6> {{log.task}} </h6>
-            {% for x in logistic.user_id %}
-              <p>{{x.user_id}} </p>
-            {% endfor %}
-          </div>
-       {% endfor %}
-    </div>
-</aside>
+
+<div class="card  shadow sm" style="width:88%; margin-top:10px; ;">
+<header class="card-header" style="text-align:center;">
+  <h6 class="title">Activity</h6>
+</header>
+<div class="card-body">
+  <ul class="fa-ul">
+  {% for activity in events.activity.all %}
+      <li>{% fontawesome_icon 'tasks' li=True %}Task      : {{activity.title}}</li>
+      <div class="collapse" id="activity">
+      <li>Description: {{activity.description}}</li>
+      <li>Involvement: {{activity.collaboration}}</li>
+      <hr>
+      </div>
+  {% endfor %}
+
+  </ul>
+  <div style="text-align:center;">
+    <button  class="btn btn-info" data-toggle="collapse" data-target="#activity"><ul class="fa-ul"><li> {% fontawesome_icon 'arrow-down' li=True %}</li></ul></button>
+  </div>
+
+</div>
+</div>

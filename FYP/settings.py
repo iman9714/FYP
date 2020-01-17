@@ -26,7 +26,7 @@ SECRET_KEY = '=%hv#@=dygknl+n@oq^9#c4y1k6g_t!0zow7v0lw3o9&@=zct9'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-LOGIN_REDIRECT_URL = 'profile'
+LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
 
@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'fontawesome',
     'crispy_forms',
-
+    'bootstrap_datepicker_plus',
+    'bootstrap4',
 
 ]
 
@@ -149,3 +150,6 @@ MEDIA_ROOT = os.path.join('account/media/')
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
