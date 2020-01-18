@@ -32,11 +32,11 @@ def account_register(request):
         form = VolunteerRegisterForm()
         context = {'form':form}
 
-    return render(request, 'registration/register.html', context)
+    return render(request, 'registration/account_register.html', context)
 
 #-------------------------------------------------------------------------------------------------------------------------------
 @login_required
-def account_view_profile(request, pk=None):
+def account_management(request, pk=None):
     if not request.user.is_authenticated:
         return redirect('login')
 

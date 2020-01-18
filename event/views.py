@@ -43,7 +43,7 @@ def recommended_event(request):
     return render(request, "event/home.html", context)
 
 #--------Event detail class-------------------------------------------------------
-def event_detail(request, id):
+def event_management(request, id):
     context = {}
     rec_list = []
     rec_id = []
