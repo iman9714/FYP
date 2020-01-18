@@ -11,7 +11,7 @@ from .forms import CreateEvent,add_activity, add_logistic, EditEvent
 
 
 
-#--------list of event-------------------------------------------------------
+#--------list of event class-------------------------------------------------------
 def event_view(request):
     context = {}
     events = Event.objects.all()
@@ -21,7 +21,7 @@ def event_view(request):
     context = {'events':events, 'activity':activity,'form':form}
     return render(request, "event/event_list.html", context)
 
-#--------list of Suggested event for volunteer-------------------------------------------------------
+#--------list of Suggested event for volunteer class-------------------------------------------------------
 def recommended_event(request):
     context = {}
     rec_list = []
@@ -37,10 +37,12 @@ def recommended_event(request):
         print("ID: " + str(x.id) +" Similarity :"+ str(x.similarity))
         rec_id.append(x.id)
 
-    context = {'rec_id':rec_id,'events':events}
+    joined_event =  request.user.event_set.all()
+
+    context = {'rec_id':rec_id,'events':events,'joined_event':joined_event}
     return render(request, "event/home.html", context)
 
-#--------Event detail-------------------------------------------------------
+#--------Event detail class-------------------------------------------------------
 def event_detail(request, id):
     context = {}
     rec_list = []
@@ -53,7 +55,7 @@ def event_detail(request, id):
     rec = eventProfile(id)
 
 
-#--------Matching Technique class Filtering-------------------------------------------------------
+#--------Matching Technique class Filtering--
     for x in rec:
         rec_list.append(filtering(int(x.__dict__['id']),float(x.__dict__['similarity'])))
 
@@ -62,7 +64,8 @@ def event_detail(request, id):
         print("ID: " + str(x.id) +" Similarity :"+ str(x.similarity))
         rec_id.append(x.id)
 
-#--------add activity-------------------------------------------------------
+
+#--------add activity---------
     activity_form = add_activity(request.POST)
     if 'add_activity' in request.POST:
         if activity_form.is_valid():
@@ -75,7 +78,7 @@ def event_detail(request, id):
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form}
             return redirect('detail',id=id)
 
-#--------add logistic-------------------------------------------------------
+#--------add logistic---------------------
     logistic_form = add_logistic(request.POST)
     if 'add_logistic' in request.POST:
         if logistic_form.is_valid():
@@ -89,7 +92,7 @@ def event_detail(request, id):
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
             return redirect('detail',id=id)
 
-#--------Join Event-------------------------------------------------------
+#--------Join Event------------------
     if 'join-event' in request.POST:
         events = Event.objects.get(pk=id)
         Event.join(request.user,events)
@@ -98,7 +101,7 @@ def event_detail(request, id):
         context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
         return redirect('detail',id=id)
 
-#--------Unjoin Event-------------------------------------------------------
+#--------Unjoin Event----------------------
     if 'unjoin-event' in request.POST:
         events = Event.objects.get(pk=id)
         Event.unjoin(request.user,events)
@@ -107,7 +110,7 @@ def event_detail(request, id):
         context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form}
         return redirect('detail',id=id)
 
-#--------Edit event------------------------------------------------------
+#--------Edit event---------------------
     event_edit = EditEvent(request.POST or None ,instance=events)
     if 'edit-event' in request.POST:
         if event_edit.is_valid():
@@ -118,19 +121,22 @@ def event_detail(request, id):
             context = {'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'event_edit':event_edit}
             return redirect('detail',id=id)
 
-#--------Delete event-------------------------------------------------------
+#--------Delete event------------
     if 'delete-event' in request.POST:
         events.delete()
         messages.success(request, 'Event is successfully Deleted!')
         return redirect('event_view')
 
-    current_event  = request.user.event_set.filter(pk=id)
+    current_event = None
+    if request.user.is_authenticated:
+        current_event  = request.user.event_set.filter(pk=id)
+
 
     context = {'current_event':current_event,'events':events, 'activity':activity, 'rec_id':rec_id, 'users':users,'logistic':logistic,'activity_form':activity_form,'logistic_form':logistic_form,'event_edit':event_edit}
     return render(request, "event/event_detail.html", context)
 
 
-#--------create Event-------------------------------------------------------
+#--------create Event class-------------------------------------------------------
 def create_event(request):
     if 'create_event' in request.POST:
         form = CreateEvent(request.POST or None)
@@ -148,7 +154,7 @@ def create_event(request):
 
     return render(request, 'event/event_list.html', context)
 
-#--------View Volunteer Detail-------------------------------------------------------
+#--------View Volunteer Detail class-------------------------------------------------------
 def view_volunteer_detail(request, volunteer_id):
     users = User.objects.get(pk=volunteer_id)
     profile = Profile.objects.filter(user = users.id)

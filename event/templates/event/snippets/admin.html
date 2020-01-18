@@ -50,7 +50,7 @@
 </div>
 
 
-<div class="card  shadow sm" style="width:63%; margin-top:10px; margin-right:2%;">
+<div class="card  shadow sm" style="width:63%; height:auto; margin-top:10px; margin-right:2%;">
 <header class="card-header" style="text-align:center;">
   <a href="" data-toggle="modal" data-target="#addactivity"><img src="{% static 'add.svg' %}" style="float:right;" width="25" height="25"></a>
   <h6 class="title">Activity</h6>
@@ -62,8 +62,8 @@
       <div class="collapse" id="activity">
       <li>Description: {{activity.description}}</li>
       <li>Involvement: {{activity.collaboration}}</li>
-      <hr>
       </div>
+      <hr>
   {% endfor %}
 
   </ul>
@@ -104,8 +104,8 @@
            {% for x in log.user_id.all %}
               <li>In-Charge : {{x}}</li>
            {% endfor %}
-           <hr>
        </div>
+       <hr>
   {% endfor %}
   </ul>
   <div style="text-align:center;">

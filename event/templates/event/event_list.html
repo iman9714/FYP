@@ -121,7 +121,7 @@ a.float:hover + div.label-container{
 		    {% for event in events %}
 						<div class="col-sm-4">
 							<div class="card shadow-sm">
-									 <img class="card-img-top" src="" >
+									 <img class="card-img-top" src="{% static 'baner.jpg' %}" >
 									 <div class="card-body mt-2 mb-2">
 												<a class="card-title" href="{% url 'detail' event.id %}">{{event.title}}</a><br>
 												Date: {{event.start_date}}<br>

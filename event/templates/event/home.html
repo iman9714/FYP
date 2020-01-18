@@ -17,14 +17,14 @@
 
 <section class="header" style="text-align:center; margin-bottom:30px;"><h1>Recommended Events</h1></section>
 
-<section class="active_event">
+<section class="recommended_event">
 		<div class="row">
 		    {% for event in events %}
           {% for x in rec_id %}
             {% if x == event.id %}
       						<div class="col-sm-4">
       							<div class="card shadow-sm">
-      									 <img class="card-img-top" src="" >
+      									 <img class="card-img-top" src="{% static 'baner.jpg' %}" >
       									 <div class="card-body mt-2 mb-2">
       												<a class="card-title" href="{% url 'detail' event.id %}">{{event.title}}</a><br>
       												Date: {{event.start_date}}<br>
@@ -40,4 +40,29 @@
 		    {% endfor %}
 		</div>
 </section>
+
+<hr>
+<section class="header" style="text-align:center; margin-bottom:30px;"><h1>Joined Events</h1></section>
+
+
+<section class="Joined_event" >
+		<div class="row">
+		    {% for event in joined_event %}
+      						<div class="col-sm-4">
+      							<div class="card shadow-sm">
+      									 <img class="card-img-top" src="{% static 'baner.jpg' %}" >
+      									 <div class="card-body mt-2 mb-2">
+      												<a class="card-title" href="{% url 'detail' event.id %}">{{event.title}}</a><br>
+      												Date: {{event.start_date}}<br>
+      						 					  Until: {{event.start_date}}<br>
+      												Time: {{event.start_time}} ~ {{event.end_time}}<br>
+      												Location: {{event.location}}
+      									 </div>
+      							</div>
+      							<br>
+                    </div>
+		    {% endfor %}
+		</div>
+</section>
+
 {% endblock %}
